@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Matrix Minds — Educational Mobile Robotic Arm 6DOF" />
+  <title>Matrix Minds · Robotic Arm 6DOF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="images/robot-hero.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+</head>
+
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-inner">
+      <span class="loader-brand">MATRIX<span class="accent">MINDS</span></span>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar" id="loaderBar"></div>
+      </div>
+      <span class="loader-label" id="loaderLabel">INITIALIZING SYSTEM</span>
+    </div>
+  </div>
+
+  <!-- CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">MATRIX<span class="accent">MINDS</span></a>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#hardware">Hardware</a></li>
+        <li><a href="#architecture">System</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+      </ul>
+      <a href="https://github.com/Ahmed3Hany/Matrix-Minds" target="_blank" class="nav-cta"><i
+          class="fa-brands fa-github"></i>GitHub</a>
+      <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#hero" onclick="closeMobileMenu()">Home</a></li>
+      <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+      <li><a href="#hardware" onclick="closeMobileMenu()">Hardware</a></li>
+      <li><a href="#architecture" onclick="closeMobileMenu()">System</a></li>
+      <li><a href="#gallery" onclick="closeMobileMenu()">Gallery</a></li>
+    </ul>
+  </div>
+
+  <!-- ==============================================
+     HERO
+=============================================== -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <canvas id="particleCanvas"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="tech-badge badge-esp32" data-depth="0.4"><i class="fa-solid fa-microchip"></i><span>ESP32</span></div>
+    <div class="tech-badge badge-dof" data-depth="0.6"><i class="fa-solid fa-rotate"></i><span>6 DOF</span></div>
+    <div class="tech-badge badge-wifi" data-depth="0.3"><i class="fa-solid fa-wifi"></i><span>IoT</span></div>
+    <div class="tech-badge badge-rgb" data-depth="0.5"><i class="fa-solid fa-palette"></i><span>RGB</span></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-eyebrow" id="heroEyebrow"><span class="eyebrow-line"></span><span>GRADUATION PROJECT
+            &nbsp;·&nbsp; 2026/2027</span><span class="eyebrow-line"></span></div>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="title-line" id="titleLine1">Educational</span>
+          <span class="title-line title-gradient" id="titleLine2">Mobile Robotic</span>
+          <span class="title-line" id="titleLine3">Arm</span>
+        </h1>
+        <p class="hero-subtitle" id="heroSubtitle">Color-Based Object Sorting Robot</p>
+        <p class="hero-description" id="heroDesc">A 6-DOF robotic arm on a mobile platform — powered by ESP32, TCS3200
+          color detection, and Blynk IoT control. Two operating modes: fully automatic color-based sorting and complete
+          manual servo override via smartphone.</p>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">DOF</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><span class="stat-num">2</span><span class="stat-label">Modes</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">PWM Ch.</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><span class="stat-num">Wi-Fi</span><span class="stat-label">Control</span></div>
+        </div>
+        <div class="hero-ctas" id="heroCTAs">
+          <a href="#about" class="cta-primary"><span class="cta-bg"></span><i
+              class="fa-solid fa-circle-play"></i>Explore</a>
+          <a href="#hardware" class="cta-secondary"><i class="fa-solid fa-microchip"></i>Hardware</a>
+          <a href="#architecture" class="cta-secondary"><i class="fa-solid fa-diagram-project"></i>System</a>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisual">
+        <div class="visual-ring visual-ring-outer"></div>
+        <div class="visual-ring visual-ring-mid"></div>
+        <div class="visual-ring visual-ring-inner"></div>
+        <div class="visual-frame">
+          <div class="img-container empty" id="heroImg">
+            <img src="images/Full_Body.png" alt="Hero Image"
+              style="scale:1.2; object-fit: contain;" />
+          </div>
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+        </div>
+        <div class="data-card data-left">
+          <div class="data-dot"></div>
+          <div class="data-text"><span class="data-val">AUTO</span><span class="data-key">MODE ACTIVE</span></div>
+        </div>
+        <div class="data-card data-right">
+          <div class="data-dot data-dot-green"></div>
+          <div class="data-text"><span class="data-val">SORTING</span><span class="data-key">RGB DETECTED</span></div>
+        </div>
+        <div class="data-card data-bottom"><i class="fa-solid fa-signal"></i><span>BLYNK CONNECTED</span></div>
+        <div class="scan-line"></div>
+      </div>
+    </div>
+    <div class="scroll-indicator" id="scrollIndicator">
+      <div class="scroll-wheel">
+        <div class="scroll-wheel-dot"></div>
+      </div><span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ==============================================
+     ABOUT
+=============================================== -->
+  <section id="about">
+    <div class="section-inner" style="padding-bottom:60px">
+      <div class="reveal">
+        <div class="section-tag">About the Project</div>
+        <h2 class="section-title">Bridging Theory &amp;<br /><span>Hands-On Robotics</span></h2>
+        <p class="section-desc">An all-in-one interactive platform combining 6-DOF manipulation, real-time color
+          detection, wireless IoT control, and mobile autonomy into one educational device.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-visual-wrap reveal">
+          <div class="about-img-frame" id="aboutImg">
+            <img src="images/Full_Body.png" alt="Hero Image"
+              style="scale:1.2; object-fit: contain; transform: scaleX(-1);" />
+          </div>
+          <div class="about-chip chip-1">
+            <div class="about-chip-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="about-chip-text"><span class="about-chip-val">Educational</span><span
+                class="about-chip-label">Platform</span></div>
+          </div>
+          <div class="about-chip chip-2">
+            <div class="about-chip-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="about-chip-text"><span class="about-chip-val">IoT Control</span><span
+                class="about-chip-label">Blynk App</span></div>
+          </div>
+        </div>
+
+        <div class="about-text-side reveal">
+          <p class="about-lead">
+            The <strong>Matrix Minds Robotic Arm</strong> is a 6-DOF, 3D-printed robotic arm mounted on a mobile
+            four-wheeled platform. Designed as a comprehensive educational unit, it covers <strong>robotics, automation,
+              embedded systems,</strong> and <strong>IoT</strong> in a single hands-on device.
+          </p>
+          <p class="about-lead" style="font-size:.9rem">
+            Controlled by an <strong>ESP32 microcontroller</strong> and six servo motors, the system uses a
+            <strong>TCS3200 color sensor</strong> to detect and classify objects by color, automatically routing them to
+            designated sorting zones. All operations are monitored and commanded through a custom <strong>Blynk mobile
+              application</strong>.
+          </p>
+
+          <div class="about-pills">
+            <span class="about-pill"><i class="fa-solid fa-microchip"></i>&nbsp;ESP32</span>
+            <span class="about-pill"><i class="fa-solid fa-palette"></i>&nbsp;TCS3200</span>
+            <span class="about-pill"><i class="fa-solid fa-gears"></i>&nbsp;PCA9685</span>
+            <span class="about-pill"><i class="fa-solid fa-wifi"></i>&nbsp;Blynk IoT</span>
+            <span class="about-pill"><i class="fa-solid fa-car"></i>&nbsp;Mobile</span>
+            <span class="about-pill"><i class="fa-solid fa-layer-group"></i>&nbsp;3D Printed</span>
+          </div>
+
+          <div class="mode-cards">
+            <div class="mode-card">
+              <div class="mode-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+              <h4>Automatic Mode</h4>
+              <p>Object → TCS3200 detection → ESP32 processing → PCA9685 servo control → automatic sorting</p>
+            </div>
+            <div class="mode-card">
+              <div class="mode-card-icon"><i class="fa-solid fa-hand"></i></div>
+              <h4>Manual Mode</h4>
+              <p>Full control of all 6 joints via Blynk app sliders + platform direction and speed adjustment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:70px">
+        <div class="reveal" style="margin-bottom:40px;text-align:center">
+          <div class="section-tag" style="justify-content:center">Project Objectives</div>
+          <h3 class="section-title" style="font-size:clamp(1.5rem,3vw,2.2rem);text-align:center">What This
+            <span>Achieves</span>
+          </h3>
+        </div>
+        <div class="objectives-grid">
+          <div class="obj-card reveal"><span class="obj-num">01</span><i class="fa-solid fa-rotate obj-icon"></i>
+            <h4>6-DOF Kinematics</h4>
+            <p>Base, shoulder, elbow, wrist pitch, wrist roll, and gripper motion through real servo control</p>
+          </div>
+          <div class="obj-card reveal"><span class="obj-num">02</span><i class="fa-solid fa-palette obj-icon"></i>
+            <h4>Color Detection</h4>
+            <p>TCS3200 identifies Red, Green, and Blue objects under indoor lighting with calibrated RGB readings</p>
+          </div>
+          <div class="obj-card reveal"><span class="obj-num">03</span><i class="fa-solid fa-wifi obj-icon"></i>
+            <h4>IoT Control</h4>
+            <p>Blynk cloud platform enables smartphone-based control from any location with Wi-Fi</p>
+          </div>
+          <div class="obj-card reveal"><span class="obj-num">04</span><i class="fa-solid fa-car-side obj-icon"></i>
+            <h4>Mobile Platform</h4>
+            <p>Four DC gear motors expand operating workspace beyond a fixed-arm setup</p>
+          </div>
+          <div class="obj-card reveal"><span class="obj-num">05</span><i class="fa-solid fa-shield-halved obj-icon"></i>
+            <h4>Obstacle Avoidance</h4>
+            <p>HC-SR04 ultrasonic sensor prevents collisions by halting movement when objects detected within 20cm</p>
+          </div>
+          <div class="obj-card reveal"><span class="obj-num">06</span><i class="fa-solid fa-brain obj-icon"></i>
+            <h4>AI-Ready</h4>
+            <p>Architecture designed for future Computer Vision and Machine Learning integration</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+     HARDWARE
+=============================================== -->
+  <section id="hardware">
+    <div class="section-inner" style="padding-bottom:60px">
+      <div class="hw-header">
+        <div class="reveal">
+          <div class="section-tag">Hardware</div>
+          <h2 class="section-title">Core <span>Components</span></h2>
+          <p class="section-desc">Every component integrated for reliability, accuracy, and educational clarity. Just
+            replace the src of each image.</p>
+        </div>
+        <div class="hw-filter reveal">
+          <button class="hw-filter-btn active" data-filter="all">All</button>
+          <button class="hw-filter-btn" data-filter="control">Control</button>
+          <button class="hw-filter-btn" data-filter="sensor">Sensors</button>
+          <button class="hw-filter-btn" data-filter="actuator">Actuators</button>
+          <button class="hw-filter-btn" data-filter="power">Power</button>
+        </div>
+      </div>
+
+      <div class="hw-grid" id="hwGrid">
+
+        <!-- HARDWARE CARDS -->
+        <div class="hw-card reveal" data-cat="control">
+          <div class="hw-img-wrap" id="esp32Img">
+            <img src="Images/esp32.jpeg" alt="ESP32 CP2102" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Control</div>
+            <div class="hw-name">ESP32 CP2102</div>
+            <p class="hw-desc">Main system controller. Processes sensor data, manages servo control via PCA9685, drives
+              L298N motor driver, and maintains Blynk cloud communication.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Architecture</span><span class="hw-spec-val">Dual-Core
+                  32-bit</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Connectivity</span><span class="hw-spec-val">Wi-Fi +
+                  Bluetooth</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">GPIO Pins</span><span class="hw-spec-val">34
+                  Programmable</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-circle-nodes"></i>System Brain</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="sensor">
+          <div class="hw-img-wrap" id="tcs3200Img">
+            <img src="Images/tcs3200.jpeg" alt="TCS3200" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Sensor</div>
+            <div class="hw-name">TCS3200 Color Sensor</div>
+            <p class="hw-desc">Detects object colors using RGB photodiodes. Converts reflected light intensity into
+              frequency signals read by ESP32 for real-time color classification.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Output</span><span class="hw-spec-val">Frequency
+                  Signal</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Filters</span><span class="hw-spec-val">R · G · B ·
+                  Clear</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Supply</span><span class="hw-spec-val">5V (via
+                  7805)</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-eye"></i>Color ID</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="control">
+          <div class="hw-img-wrap" id="pca9685Img">
+            <img src="Images/PCA9685.png" alt="PCA9685" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Control</div>
+            <div class="hw-name">PCA9685 Servo Driver</div>
+            <p class="hw-desc">16-channel PWM driver via I2C. Controls all six servo motors simultaneously with precise
+              signals, offloading from ESP32.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Channels</span><span class="hw-spec-val">16 PWM
+                  Outputs</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Protocol</span><span class="hw-spec-val">I2C (GPIO
+                  21/22)</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Supply</span><span class="hw-spec-val">3.3V</span>
+              </div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-wave-square"></i>PWM Gen</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="actuator">
+          <div class="hw-img-wrap" id="mg995Img">
+            <img src="Images/MG995.jpeg" alt="MG995 Servo" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Actuator</div>
+            <div class="hw-name">MG995 Servo ×3</div>
+            <p class="hw-desc">High-torque metal-gear servos for Base (Ch.0), Shoulder (Ch.2), and Elbow (Ch.4) — the
+              three heaviest-load joints.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Torque</span><span class="hw-spec-val">13 kg·cm</span>
+              </div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Rotation</span><span class="hw-spec-val">0°–
+                  180°</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Joints</span><span class="hw-spec-val">Base · Shoulder
+                  · Elbow</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-dumbbell"></i>Heavy Load</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="actuator">
+          <div class="hw-img-wrap" id="mg90sImg">
+            <img src="Images/MG90S.png" alt="MG90S Servo" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Actuator</div>
+            <div class="hw-name">MG90S Servo ×3</div>
+            <p class="hw-desc">Lightweight micro servos for Wrist Pitch (Ch.6), Wrist Roll (Ch.8), and Gripper (Ch.10).
+              Enable fine positioning and reliable gripping.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Torque</span><span class="hw-spec-val">2.2 kg·cm</span>
+              </div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Rotation</span><span class="hw-spec-val">0°–
+                  180°</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Joints</span><span class="hw-spec-val">Wrist · Wrist ·
+                  Grip</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-hand-scissors"></i>Fine Motion</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="control">
+          <div class="hw-img-wrap" id="l298nImg">
+            <img src="Images/L298N.png" alt="L298N Driver" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Control</div>
+            <div class="hw-name">L298N Motor Driver</div>
+            <p class="hw-desc">Dual H-bridge controlling four DC gear motors on the mobile platform. Enables forward,
+              backward, left-turn, right-turn motion with PWM speed.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Type</span><span class="hw-spec-val">Dual
+                  H-Bridge</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Motors</span><span class="hw-spec-val">4× DC Gear
+                  Motor</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">GPIO</span><span class="hw-spec-val">16/17/18/19</span>
+              </div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-road"></i>Platform Motion</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="sensor">
+          <div class="hw-img-wrap" id="hc04Img">
+            <img src="Images/HC-SR04.png" alt="HC-SR04" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Sensor</div>
+            <div class="hw-name">HC-SR04 Ultrasonic</div>
+            <p class="hw-desc">Ultrasonic pulse distance measurement. ESP32 halts platform movement when obstacles
+              detected within 20 cm — collision prevention.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Range</span><span class="hw-spec-val">2 – 400 cm</span>
+              </div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Trig/Echo</span><span class="hw-spec-val">GPIO
+                  12/13</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Threshold</span><span class="hw-spec-val">≤ 20
+                  cm</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-shield-halved"></i>Safety</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="power">
+          <div class="hw-img-wrap" id="lm2596Img">
+            <img src="Images/LM2596.png" alt="LM2596" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Power</div>
+            <div class="hw-name">LM2596 Buck Converter</div>
+            <p class="hw-desc">Efficiently steps 12V battery down to 6.5V, supplying servos and feeding downstream
+              regulators (7805 / AMS1117).</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Input</span><span class="hw-spec-val">12V
+                  Battery</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Output</span><span class="hw-spec-val">6.5V
+                  Regulated</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-plug-circle-bolt"></i>Power Step-Down</span>
+          </div>
+        </div>
+
+        <!-- AMS1117 + 7805 merged card -->
+        <div class="hw-card reveal" data-cat="power">
+          <div class="hw-img-wrap">
+            <img src="Images/Voltage_Regulator.png" alt="Voltage Regulators" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Power</div>
+            <div class="hw-name">Voltage Regulators</div>
+            <p class="hw-desc">AMS1117 provides 3.3V to the ESP32 and PCA9685. 7805 provides 5V to the
+              TCS3200 and HC-SR04. Both receive 6.5V from the LM2596 buck converter.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">AMS1117 Output</span><span class="hw-spec-val">3.3V →
+                  ESP32 / PCA</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">7805 Output</span><span class="hw-spec-val">5V →
+                  Sensors</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Both Input</span><span class="hw-spec-val">6.5V
+                  (LM2596)</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-shield"></i>Clean regulated supplies</span>
+          </div>
+        </div>
+
+        <div class="hw-card reveal" data-cat="power">
+          <div class="hw-img-wrap" id="batteryImg">
+            <img src="Images/Battery.png" alt="Battery Pack" style="object-fit: contain;" />
+            <div class="hw-scan"></div>
+          </div>
+          <div class="hw-body">
+            <div class="hw-cat">Power</div>
+            <div class="hw-name">Li-Ion Battery Pack</div>
+            <p class="hw-desc">Three 3.7V lithium-ion cells in series. Powers all components — motors, arm, ESP32,
+              sensors, and drivers.</p>
+            <div class="hw-specs">
+              <div class="hw-spec-row"><span class="hw-spec-key">Configuration</span><span class="hw-spec-val">3× 3.7V
+                  Series</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Total Voltage</span><span
+                  class="hw-spec-val">11.1V</span></div>
+              <div class="hw-spec-row"><span class="hw-spec-key">Capacity</span><span class="hw-spec-val">6800
+                  mAh</span></div>
+            </div>
+            <span class="hw-role"><i class="fa-solid fa-battery-three-quarters"></i>Main Power</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+     SYSTEM ARCHITECTURE
+=============================================== -->
+  <section id="architecture">
+    <div class="section-inner" style="padding-bottom:60px">
+
+      <div class="arch-intro">
+        <div class="reveal">
+          <div class="section-tag">System Architecture</div>
+          <h2 class="section-title">How It All <span>Connects</span></h2>
+          <p class="section-desc">Five integrated units working in concert to deliver real-time automated sorting and
+            wireless manual control.</p>
+
+          <div class="workflow" style="margin-top:40px">
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa-solid fa-box"></i></div>
+              <div class="wf-content">
+                <h4>Object Placed</h4>
+                <p>Colored object positioned before TCS3200 sensor on robot platform</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa-solid fa-eye"></i></div>
+              <div class="wf-content">
+                <h4>Color Detection</h4>
+                <p>TCS3200 filters RGB channels, outputs frequency signals</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa-solid fa-microchip"></i></div>
+              <div class="wf-content">
+                <h4>ESP32 Processing</h4>
+                <p>Reads RGB frequencies, compares against thresholds, identifies color</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa-solid fa-wave-square"></i></div>
+              <div class="wf-content">
+                <h4>PCA9685 Signal</h4>
+                <p>ESP32 sends I2C commands, PCA9685 generates precise PWM for servos</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa fa-hand-grab-o"></i></div>
+              <div class="wf-content">
+                <h4>Pick &amp; Sort</h4>
+                <p>Arm moves to object, gripper closes, carries to designated color zone</p>
+              </div>
+            </div>
+            <div class="wf-step">
+              <div class="wf-dot"><i class="fa-solid fa-house"></i></div>
+              <div class="wf-content">
+                <h4>Return Home</h4>
+                <p>Arm resets to default position, system awaits next detection cycle</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="section-tag">System Units</div>
+          <div class="system-units" style="grid-template-columns:1fr;gap:8px;margin-top:20px">
+            <div
+              style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;font-size:.8rem;color:var(--gray);line-height:1.7">
+              <strong style="color:var(--white)">⚡ Power:</strong> 12V Battery → LM2596 (6.5V) → AMS1117 (3.3V) / 7805
+              (5V)
+            </div>
+            <div
+              style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;font-size:.8rem;color:var(--gray);line-height:1.7">
+              <strong style="color:var(--white)">📥 Input:</strong> TCS3200 Color · HC-SR04 Distance · Blynk App
+              Commands
+            </div>
+            <div
+              style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;font-size:.8rem;color:var(--gray);line-height:1.7">
+              <strong style="color:var(--white)">🧠 Processing:</strong> ESP32 reads, decides, dispatches all commands
+            </div>
+            <div
+              style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;font-size:.8rem;color:var(--gray);line-height:1.7">
+              <strong style="color:var(--white)">🎮 Control:</strong> PCA9685 (arm servos) + L298N (platform motors)
+            </div>
+            <div
+              style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;font-size:.8rem;color:var(--gray);line-height:1.7">
+              <strong style="color:var(--white)">⚙️ Output:</strong> 6× Servo (arm motion) + 4× DC Motor (platform
+              movement)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagram cards -->
+      <div style="margin-bottom:40px;text-align:center;margin-top:80px" class="reveal">
+        <div class="section-tag" style="justify-content:center">Diagrams</div>
+        <h3 class="section-title" style="font-size:clamp(1.5rem,3vw,2.2rem);text-align:center">System
+          <span>Diagrams</span>
+        </h3>
+        <p style="font-size:.85rem;color:var(--gray);margin-top:10px">Click any card to open full-screen view</p>
+      </div>
+      <div class="arch-diagrams">
+        <div class="arch-card reveal" onclick="openModal('power')">
+          <div class="arch-img-wrap" id="powerDiagramImg">
+            <img src="Images/Power_Block_DG.png" alt="Power Diagram" style="object-fit: contain;" />
+          </div>
+          <div class="arch-body">
+            <h4>Power Block Diagram</h4>
+            <p>Full power distribution chain from 12V battery through LM2596, AMS1117, and 7805 to every component.</p>
+            <div class="arch-click-hint"><i class="fa-solid fa-expand"></i>Click to expand</div>
+          </div>
+        </div>
+        <div class="arch-card reveal" onclick="openModal('data')">
+          <div class="arch-img-wrap" id="dataDiagramImg">
+            <img src="Images/Data_Block_DG.png" alt="Data Diagram" style="object-fit: contain;" />
+          </div>
+          <div class="arch-body">
+            <h4>Data Block Diagram</h4>
+            <p>Data flow: Blynk App → ESP32 → PCA9685/L298N, and TCS3200/HC-SR04 → ESP32 decision pipeline.</p>
+            <div class="arch-click-hint"><i class="fa-solid fa-expand"></i>Click to expand</div>
+          </div>
+        </div>
+        <div class="arch-card reveal" onclick="openModal('circuit')">
+          <div class="arch-img-wrap" id="circuitDiagramImg">
+            <img src="Images/Main Circuit.png" alt="Circuit Diagram" style="object-fit: contain;" />
+          </div>
+          <div class="arch-body">
+            <h4>Full Circuit Diagram</h4>
+            <p>Complete wiring schematic showing all GPIO connections between ESP32, sensors, PCA9685, L298N, servos,
+              and motors.</p>
+            <div class="arch-click-hint"><i class="fa-solid fa-expand"></i>Click to expand</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagram Modal -->
+  <div class="modal-overlay" id="diagramModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Diagram</h3>
+        <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <img id="diagramImage" src="" alt="Diagram">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+     GALLERY
+=============================================== -->
+  <section id="gallery">
+    <div class="section-inner" style="padding-bottom:60px">
+
+      <div class="reveal">
+        <div class="section-tag">Gallery</div>
+        <h2 class="section-title">Project <span>Gallery</span></h2>
+        <p class="section-desc">Hardware build process, component assembly, and system demonstrations.</p>
+      </div>
+
+      <div class="gallery-controls">
+        <div class="gallery-filters">
+          <button class="gf-btn active" data-gf="all">All</button>
+          <button class="gf-btn" data-gf="hardware">Hardware</button>
+          <button class="gf-btn" data-gf="software">Software</button>
+          <button class="gf-btn" data-gf="team">Team</button>
+        </div>
+      </div>
+
+      <div class="gallery-grid reveal" id="galleryGrid">
+        <div class="gallery-item tall" data-gf="hardware">
+          <img src="Images/Full_Body.png" alt="Full Robot" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="Images/esp32.jpeg" alt="Electronics" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="Images/Main PCB.png" alt="PCB" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item tall" data-gf="software">
+          <img src="Images/Mobile App 1.jpg" alt="Blynk App" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item tall" data-gf="software">
+          <img src="Images/Mobile App 2.jpg" alt="Blynk App" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/TCS3200.jpeg" alt="Color Test" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/HC-SR04.png" alt="Ultrasonic Sensor" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/L298N.png" alt="L298N Motor Driver" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/PCA9685.png" alt="PCA9685 Servo Driver" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/MG995.jpeg" alt="MG995 Servo" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/MG90S.png" alt="MG90S Servo" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item" data-gf="hardware">
+          <img src="images/Voltage_Regulator.png" alt="Voltage Regulator" style="object-fit: contain;" />
+        </div>
+        <div class="gallery-item wide" data-gf="team">
+          <img src="Images/presentation.png" alt="Presentation" style="object-fit: contain;" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="lightbox-content" id="lightboxContent">
+      <img id="lightboxImg" src="" alt="Preview">
+    </div>
+  </div>
+
+  <!-- ==============================================
+     FOOTER
+=============================================== -->
+  <footer id="contact">
+    <div class="footer-glow"></div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <span class="footer-logo">MATRIX<span class="accent">MINDS</span></span>
+          <p class="footer-tagline">Educational Mobile Robotic Arm — 6 DOF Color-Based Object Sorting. Faculty of
+            Industrial & Energy Technology · 2026/2027</p>
+          <div class="footer-social">
+            <a href="https://github.com/Ahmed3Hany/Matrix-Minds" target="_blank" class="social-btn"><i
+                class="fa-brands fa-github"></i></a>
+            <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Navigate</h5>
+          <ul class="footer-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#hardware">Hardware</a></li>
+            <li><a href="#architecture">System</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Supervisors</h5>
+          <ul class="footer-links">
+            <li><a href="#">Assoc. Prof. Osama El-Nahas</a></li>
+            <li><a href="#">Dr. Ghada Fathy</a></li>
+            <li><a href="#">Eng. Osama Elsamadony</a></li>
+          </ul>
+          <h5 style="margin-top:24px">University</h5>
+          <ul class="footer-links">
+            <li><a href="#">Borg El Arab Tech University</a></li>
+            <li><a href="#">IT Program</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Team Members</h5>
+          <ul class="footer-team-list">
+            <li>Ahmed Hany</li>
+            <li>Ismail Mohammed</li>
+            <li>Ahmed Mohammed</li>
+            <li>Eslam Mohammed</li>
+            <li>Abdelrahman Amr</li>
+            <li>Amr Khaled</li>
+            <li>Hossam Ekramy</li>
+            <li>Joumana Amr</li>
+            <li>Jana Mahmoud</li>
+            <li>Habiba Ibrahim</li>
+            <li>Habiba Mohammed</li>
+            <li>Jana Shaker</li>
+            <li>Habiba Walid</li>
+            <li>Gehad Mahmoud</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-line"></div>
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p>© 2025/2026 <span>Matrix Minds</span> · Borg El Arab Technological University</p>
+        <div class="footer-badge"><i class="fa-solid fa-microchip"></i>ESP32 + Blynk IoT</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
